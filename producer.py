@@ -11,7 +11,7 @@ producer = KafkaProducer(bootstrap_servers=['localhost:9092'],
 dataset_folder_path = os.path.join(os.path.dirname(os.getcwd()), 'FP-Big-Data\\Dataset')
 dataset_file_path = os.path.join(dataset_folder_path, 'business_ratings.csv')
 batch = 3
-batch_max = 500000
+batch_max = 10000
 batch_flag = 0
 with open(dataset_file_path,"r", encoding="utf-8") as f:
     for row in f:

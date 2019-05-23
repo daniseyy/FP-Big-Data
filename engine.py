@@ -26,19 +26,19 @@ class RecommendationEngine:
         
         #Model 1
         logger.info("Training the ALS model 1")
-        self.als = ALS(maxIter=5, regParam=0.01, userCol="userId", itemCol="businessId", ratingCol="stars", coldStartStrategy="drop")
+        self.als = ALS(maxIter=5, regParam=0.01, userCol="userId", itemCol="businessId", ratingCol="Stars", coldStartStrategy="drop")
         self.model1 = self.als.fit(self.df0)
         logger.info("ALS model 1 built!")
         
         #Model 2
         logger.info("Training the ALS model 2")
-        self.als = ALS(maxIter=5, regParam=0.01, userCol="userId", itemCol="businessId", ratingCol="stars", coldStartStrategy="drop")
+        self.als = ALS(maxIter=5, regParam=0.01, userCol="userId", itemCol="businessId", ratingCol="Stars", coldStartStrategy="drop")
         self.model2 = self.als.fit(self.df1)
         logger.info("ALS model 2 built!")
         
         #Model 3
         logger.info("Training the ALS model 3")
-        self.als = ALS(maxIter=5, regParam=0.01, userCol="userId", itemCol="businessId", ratingCol="stars", coldStartStrategy="drop")
+        self.als = ALS(maxIter=5, regParam=0.01, userCol="userId", itemCol="businessId", ratingCol="Stars", coldStartStrategy="drop")
         self.model3 = self.als.fit(self.df2)
         logger.info("ALS model 3 built!")
         
@@ -47,7 +47,7 @@ class RecommendationEngine:
         """
         
         logger.info("Training the ALS model...")
-        self.als = ALS(maxIter=5, regParam=0.01, userCol="userId", itemCol="businessId", ratingCol="stars", coldStartStrategy="drop")
+        self.als = ALS(maxIter=5, regParam=0.01, userCol="userId", itemCol="businessId", ratingCol="Stars", coldStartStrategy="drop")
         if model == 0:
             self.model1 = self.als.fit(self.df0)
         elif model == 1:
@@ -67,7 +67,7 @@ class RecommendationEngine:
             userSubsetRecs = userSubsetRecs.withColumn("recommendations", explode("recommendations"))
             userSubsetRecs = userSubsetRecs.select(func.col('userId'),
                                                    func.col('recommendations')['businessId'].alias('businessId'),
-                                                   func.col('recommendations')['stars'].alias('Rating')).\
+                                                   func.col('recommendations')['Stars'].alias('Rating')).\
                                                                                         drop('recommendations')
             userSubsetRecs = userSubsetRecs.drop('Rating')
             userSubsetRecs = userSubsetRecs.join(self.businessdf, ("businessId"), 'inner')
@@ -83,7 +83,7 @@ class RecommendationEngine:
             userSubsetRecs = userSubsetRecs.withColumn("recommendations", explode("recommendations"))
             userSubsetRecs = userSubsetRecs.select(func.col('userId'),
                                                    func.col('recommendations')['businessId'].alias('businessId'),
-                                                   func.col('recommendations')['stars'].alias('Rating')).\
+                                                   func.col('recommendations')['Stars'].alias('Rating')).\
                                                                                         drop('recommendations')
             userSubsetRecs = userSubsetRecs.drop('Rating')
             userSubsetRecs = userSubsetRecs.join(self.businessdf, ("businessId"), 'inner')
@@ -99,7 +99,7 @@ class RecommendationEngine:
             userSubsetRecs = userSubsetRecs.withColumn("recommendations", explode("recommendations"))
             userSubsetRecs = userSubsetRecs.select(func.col('userId'),
                                                    func.col('recommendations')['businessId'].alias('businessId'),
-                                                   func.col('recommendations')['stars'].alias('Rating')).\
+                                                   func.col('recommendations')['Stars'].alias('Rating')).\
                                                                                         drop('recommendations')
             userSubsetRecs = userSubsetRecs.drop('Rating')
             userSubsetRecs = userSubsetRecs.join(self.businessdf, ("businessId"), 'inner')
@@ -120,7 +120,7 @@ class RecommendationEngine:
             businessSubsetRecs = businessSubsetRecs.withColumn("recommendations", explode("recommendations"))
             businessSubsetRecs = businessSubsetRecs.select(func.col('businessId'),
                                                      func.col('recommendations')['userId'].alias('userId'),
-                                                     func.col('recommendations')['stars'].alias('Rating')).\
+                                                     func.col('recommendations')['Stars'].alias('Rating')).\
                                                                                             drop('recommendations')
             businessSubsetRecs = businessSubsetRecs.drop('Rating')
             businessSubsetRecs = businessSubsetRecs.join(self.businessdf, ("businessId"), 'inner')
@@ -136,7 +136,7 @@ class RecommendationEngine:
             businessSubsetRecs = businessSubsetRecs.withColumn("recommendations", explode("recommendations"))
             businessSubsetRecs = businessSubsetRecs.select(func.col('businessId'),
                                                      func.col('recommendations')['userId'].alias('userId'),
-                                                     func.col('recommendations')['stars'].alias('Rating')).\
+                                                     func.col('recommendations')['Stars'].alias('Rating')).\
                                                                                             drop('recommendations')
             businessSubsetRecs = businessSubsetRecs.drop('Rating')
             businessSubsetRecs = businessSubsetRecs.join(self.businesssdf, ("businessId"), 'inner')
@@ -152,7 +152,7 @@ class RecommendationEngine:
             businessSubsetRecs = businessSubsetRecs.withColumn("recommendations", explode("recommendations"))
             businessSubsetRecs = businessSubsetRecs.select(func.col('businessId'),
                                                      func.col('recommendations')['userId'].alias('userId'),
-                                                     func.col('recommendations')['stars'].alias('Rating')).\
+                                                     func.col('recommendations')['Stars'].alias('Rating')).\
                                                                                             drop('recommendations')
             businessSubsetRecs = businessSubsetRecs.drop('Rating')
             businessSubsetRecs = businessSubsetRecs.join(self.businesssdf, ("businessId"), 'inner')
@@ -162,22 +162,22 @@ class RecommendationEngine:
             businessSubsetRecs = businessSubsetRecs.to_json()
             return businessSubsetRecs
 
-    def get_stars_for_business_ids(self, model, user_id, businessId):
-        """Given a user_id and a list of business_ids, predict stars for them
+    def get_stars_for_business_ids(self, model, userId, businessId):
+        """Given a user_id and a list of business_ids, predict Stars for them
         """
         
         if model == 0:
-            request = self.spark_session.createDataFrame([(user_id, business_id)], ["userId", "businessId"])
-            stars = self.model1.transform(request).collect()
-            return stars
+            request = self.spark_session.createDataFrame([(userId, businessId)], ["userId", "businessId"])
+            Stars = self.model1.transform(request).collect()
+            return Stars
         elif model == 1:
-            request = self.spark_session.createDataFrame([(user_id, business_id)], ["userId", "businessId"])
-            stars = self.model2.transform(request).collect()
-            return stars
+            request = self.spark_session.createDataFrame([(userId, businessId)], ["userId", "businessId"])
+            Stars = self.model2.transform(request).collect()
+            return Stars
         elif model == 2:
-            request = self.spark_session.createDataFrame([(user_id, business_id)], ["userId", "businessId"])
-            stars = self.model3.transform(request).collect()
-            return stars
+            request = self.spark_session.createDataFrame([(userId, businessId)], ["userId", "businessId"])
+            Stars = self.model3.transform(request).collect()
+            return Stars
 
    
 
@@ -187,30 +187,30 @@ class RecommendationEngine:
         """
         logger.info("Starting up the Recommendation Engine: ")
         self.spark_session = spark_session
-        # Load stars data for later use
-        logger.info("Loading stars data...")
+        # Load Stars data for later use
+        logger.info("Loading Stars data...")
         
-        file_counter = 0
-        while True:
-            file_name1 = 'data_part_1.txt'
-            dataset_file_path1 = os.path.join(dataset_path, file_name1)
-            exist = os.path.isfile(dataset_file_path1)
-            if exist:
-                self.df0 = spark_session.read.csv(dataset_file_path1, header=None, inferSchema=True)
-                self.df0 = self.df0.selectExpr("_c0 as userId", "_c1 as businessId", "_c2 as Stars")
+       
+     
+        file_name1 = 'data_part_1.txt'
+        dataset_file_path1 = os.path.join(dataset_path, file_name1)
+        exist = os.path.isfile(dataset_file_path1)
+        if exist:
+            self.df0 = spark_session.read.csv(dataset_file_path1, header=None, inferSchema=True)
+            self.df0 = self.df0.selectExpr("_c0 as userId", "_c1 as businessId", "_c2 as Stars")
 
-            file_name2 = 'data_part_2.txt'
-            dataset_file_path2 = os.path.join(dataset_path, file_name2)
-            exist = os.path.isfile(dataset_file_path2)
-            if exist:
-                self.df1 = spark_session.read.csv(dataset_file_path2, header=None, inferSchema=True)
-                self.df1 = self.df1.selectExpr("_c0 as userId", "_c1 as businessId", "_c2 as Stars")
+        file_name2 = 'data_part_2.txt'
+        dataset_file_path2 = os.path.join(dataset_path, file_name2)
+        exist = os.path.isfile(dataset_file_path2)
+        if exist:
+            self.df1 = spark_session.read.csv(dataset_file_path2, header=None, inferSchema=True)
+            self.df1 = self.df1.selectExpr("_c0 as userId", "_c1 as businessId", "_c2 as Stars")
 
-            file_name3 = 'data_part_3.txt'
-            dataset_file_path3 = os.path.join(dataset_path, file_name3)
-            exist = os.path.isfile(dataset_file_path3)
-            if exist:
-                self.df2 = spark_session.read.csv(dataset_file_path3, header=None, inferSchema=True)
-                self.df2 = self.df2.selectExpr("_c0 as userId", "_c1 as businessId", "_c2 as Stars")
+        file_name3 = 'data_part_3.txt'
+        dataset_file_path3 = os.path.join(dataset_path, file_name3)
+        exist = os.path.isfile(dataset_file_path3)
+        if exist:
+            self.df2 = spark_session.read.csv(dataset_file_path3, header=None, inferSchema=True)
+            self.df2 = self.df2.selectExpr("_c0 as userId", "_c1 as businessId", "_c2 as Stars")
         # Train the model
         self.__train_all_model()

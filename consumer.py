@@ -10,7 +10,7 @@ consumer = KafkaConsumer(
      value_deserializer=lambda x: loads(x.decode('utf-8')))
 
 folder_path = os.path.join(os.path.dirname(os.getcwd()), 'FP-Big-Data\\Dataset')
-batch_limit = 500000
+batch_limit = 10000
 batch_counter = 1
 batch_number = 1
 batch_len = 3

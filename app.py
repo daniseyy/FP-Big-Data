@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 from flask import Flask, request
 
 
-@main.route("/<int:model>/<int:userId>/stars/top/<int:count>", methods=["GET"])
+@main.route("/<int:model>/<int:userId>/Rating/top/<int:count>", methods=["GET"])
 def top_stars(model, userId, count):
     logger.debug("User %s TOP stars requested", userId)
     top_rated = recommendation_engine.get_top_stars(model, userId, count)
@@ -30,7 +30,7 @@ def business_recommending(model, businessId, count):
 @main.route("/<int:model>/<int:userId>/stars/<int:businessId>", methods=["GET"])
 def business_stars(model, userId, businessId):
     logger.debug("User %s rating requested for business %s", userId, businessId)
-    stars = recommendation_engine.get_stars_for_movie_ids(model, userId, businessId)
+    stars = recommendation_engine.get_stars_for_business_ids(model, userId, businessId)
     return json.dumps(stars)
 
 
