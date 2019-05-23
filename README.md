@@ -15,8 +15,8 @@ Initialize a CherryPy web server for app.py and create the SparkContext for engi
 The Recommendation Engine system using pyspark. 
 ## Limitations 
 ### Model Used
-Model 1: First 10.000 of data
-Model 2: Next 10.000 of data
+Model 1: First 10.000 of data <br>
+Model 2: Next 10.000 of data <br>
 Model 3: Next 10.000 of data
 ### API Endpoint
 The API runs on localhost (0.0.0.0) on port number 9898.
