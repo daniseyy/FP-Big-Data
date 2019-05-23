@@ -30,3 +30,9 @@ kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --pa
 4. Run consumer.py
 5. Wait until after the dataset is saved
 6. Run server.py 
+![1](img/enginerunning.PNG)
+## Available API Requests
+http://localhost:9999/<model_id>/<userId>/stars/<businessIid>
+method = [GET] 
+Display system prediction regarding the rating for <businessId> that <userId> will give. 
+![2](img/hasilapi.PNG)
