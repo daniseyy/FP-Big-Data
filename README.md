@@ -34,7 +34,7 @@ kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --pa
 ## Available API Requests
 http://localhost:9999/<model_id>/<userId>/stars/<businessIid> <br>
 method = [GET] <br>
-Display system prediction regarding the rating for <businessId> that <userId> will give. <br>
+Display system prediction regarding the stars (rating) for <businessId> that <userId> will give. <br>
 ![2](img/hasilapi.png)
   
 http://localhost:9999/<int:model>/<int:userId>/Rating/top/<int:business_count> <br>
