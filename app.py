@@ -13,17 +13,17 @@ logger = logging.getLogger(__name__)
 from flask import Flask, request
 
 
-@main.route("/<int:model>/<int:userId>/Rating/top/<int:count>", methods=["GET"])
-def top_stars(model, userId, count):
+@main.route("/<int:model>/<int:userId>/Rating/top/<int:business_count>", methods=["GET"])
+def top_stars(model, userId, business_count):
     logger.debug("User %s TOP stars requested", userId)
-    top_rated = recommendation_engine.get_top_stars(model, userId, count)
+    top_rated = recommendation_engine.get_top_stars(model, userId, business_count)
     return json.dumps(top_rated)
 
 
-@main.route("/<int:model>/business/<int:businessId>/recommend/<int:count>", methods=["GET"])
-def business_recommending(model, businessId, count):
+@main.route("/<int:model>/business/<int:businessId>/recommend/<int:user_count>", methods=["GET"])
+def business_recommending(model, businessId, user_count):
     logger.debug("BusinessId %s TOP user recommending", businessId)
-    top_rated = recommendation_engine.get_top_business_recommend(model, businessId, count)
+    top_rated = recommendation_engine.get_top_business_recommend(model, businessId, user_count)
     return json.dumps(top_rated)
 
 

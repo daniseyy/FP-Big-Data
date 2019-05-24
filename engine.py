@@ -62,15 +62,15 @@ class RecommendationEngine:
         
         if model == 0:
             users = self.df0.select(self.als.getUserCol())
-            users = users.filter(users.userId == user_id)
-            userSubsetRecs = self.model1.recommendForUserSubset(users, businesss_count)
+            users = users.filter(users.userId == userId)
+            userSubsetRecs = self.model1.recommendForUserSubset(users, business_count)
             userSubsetRecs = userSubsetRecs.withColumn("recommendations", explode("recommendations"))
             userSubsetRecs = userSubsetRecs.select(func.col('userId'),
                                                    func.col('recommendations')['businessId'].alias('businessId'),
-                                                   func.col('recommendations')['Stars'].alias('Rating')).\
+                                                   func.col('recommendations')['rating'].alias('rating')).\
                                                                                         drop('recommendations')
-            userSubsetRecs = userSubsetRecs.drop('Rating')
-            userSubsetRecs = userSubsetRecs.join(self.businessdf, ("businessId"), 'inner')
+            #userSubsetRecs = userSubsetRecs.drop('stars')
+            # userSubsetRecs = userSubsetRecs.join(self.df0, ("businessId"), 'inner')
             # userSubsetRecs.show()
             # userSubsetRecs.printSchema()
             userSubsetRecs = userSubsetRecs.toPandas()
@@ -83,10 +83,10 @@ class RecommendationEngine:
             userSubsetRecs = userSubsetRecs.withColumn("recommendations", explode("recommendations"))
             userSubsetRecs = userSubsetRecs.select(func.col('userId'),
                                                    func.col('recommendations')['businessId'].alias('businessId'),
-                                                   func.col('recommendations')['Stars'].alias('Rating')).\
+                                                   func.col('recommendations')['rating'].alias('rating')).\
                                                                                         drop('recommendations')
-            userSubsetRecs = userSubsetRecs.drop('Rating')
-            userSubsetRecs = userSubsetRecs.join(self.businessdf, ("businessId"), 'inner')
+            #userSubsetRecs = userSubsetRecs.drop('stars')
+            #userSubsetRecs = userSubsetRecs.join(self.df1, ("businessId"), 'inner')
             # userSubsetRecs.show()
             # userSubsetRecs.printSchema()
             userSubsetRecs = userSubsetRecs.toPandas()
@@ -99,10 +99,10 @@ class RecommendationEngine:
             userSubsetRecs = userSubsetRecs.withColumn("recommendations", explode("recommendations"))
             userSubsetRecs = userSubsetRecs.select(func.col('userId'),
                                                    func.col('recommendations')['businessId'].alias('businessId'),
-                                                   func.col('recommendations')['Stars'].alias('Rating')).\
+                                                   func.col('recommendations')['rating'].alias('rating')).\
                                                                                         drop('recommendations')
-            userSubsetRecs = userSubsetRecs.drop('Rating')
-            userSubsetRecs = userSubsetRecs.join(self.businessdf, ("businessId"), 'inner')
+            #userSubsetRecs = userSubsetRecs.drop('stars')
+            #userSubsetRecs = userSubsetRecs.join(self.df2, ("businessId"), 'inner')
             # userSubsetRecs.show()
             # userSubsetRecs.printSchema()
             userSubsetRecs = userSubsetRecs.toPandas()
@@ -120,10 +120,10 @@ class RecommendationEngine:
             businessSubsetRecs = businessSubsetRecs.withColumn("recommendations", explode("recommendations"))
             businessSubsetRecs = businessSubsetRecs.select(func.col('businessId'),
                                                      func.col('recommendations')['userId'].alias('userId'),
-                                                     func.col('recommendations')['Stars'].alias('Rating')).\
+                                                     func.col('recommendations')['rating'].alias('stars')).\
                                                                                             drop('recommendations')
-            businessSubsetRecs = businessSubsetRecs.drop('Rating')
-            businessSubsetRecs = businessSubsetRecs.join(self.businessdf, ("businessId"), 'inner')
+        # businessSubsetRecs = businessSubsetRecs.drop('rating')
+            #businessSubsetRecs = businessSubsetRecs.join(self.businessdf, ("businessId"), 'inner')
             # userSubsetRecs.show()
             # userSubsetRecs.printSchema()
             businessSubsetRecs = businessSubsetRecs.toPandas()
@@ -136,9 +136,9 @@ class RecommendationEngine:
             businessSubsetRecs = businessSubsetRecs.withColumn("recommendations", explode("recommendations"))
             businessSubsetRecs = businessSubsetRecs.select(func.col('businessId'),
                                                      func.col('recommendations')['userId'].alias('userId'),
-                                                     func.col('recommendations')['Stars'].alias('Rating')).\
+                                                     func.col('recommendations')['rating'].alias('rating')).\
                                                                                             drop('recommendations')
-            businessSubsetRecs = businessSubsetRecs.drop('Rating')
+            #businessSubsetRecs = businessSubsetRecs.drop('rating')
             businessSubsetRecs = businessSubsetRecs.join(self.businesssdf, ("businessId"), 'inner')
             # userSubsetRecs.show()
             # userSubsetRecs.printSchema()
@@ -152,10 +152,10 @@ class RecommendationEngine:
             businessSubsetRecs = businessSubsetRecs.withColumn("recommendations", explode("recommendations"))
             businessSubsetRecs = businessSubsetRecs.select(func.col('businessId'),
                                                      func.col('recommendations')['userId'].alias('userId'),
-                                                     func.col('recommendations')['Stars'].alias('Rating')).\
+                                                     func.col('recommendations')['rating'].alias('rating')).\
                                                                                             drop('recommendations')
-            businessSubsetRecs = businessSubsetRecs.drop('Rating')
-            businessSubsetRecs = businessSubsetRecs.join(self.businesssdf, ("businessId"), 'inner')
+            #businessSubsetRecs = businessSubsetRecs.drop('stars')
+            #businessSubsetRecs = businessSubsetRecs.join(self.businesssdf, ("businessId"), 'inner')
             # userSubsetRecs.show()
             # userSubsetRecs.printSchema()
             businessSubsetRecs = businessSubsetRecs.toPandas()
