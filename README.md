@@ -36,3 +36,7 @@ http://localhost:9999/<model_id>/<userId>/stars/<businessIid>
 method = [GET] 
 Display system prediction regarding the rating for <businessId> that <userId> will give. 
 ![2](img/hasilapi.png)
+  
+http://localhost:9999/<int:model>/<int:userId>/Rating/top/<int:business_count>
+method = [GET]
+![3](img/hasilapi2.png)
